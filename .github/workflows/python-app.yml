@@ -28,15 +28,9 @@ jobs:
       - name: Run tests with coverage
         run: |
           pytest --cov=app --cov-report=xml
+          coveralls
 
-      - name: Debug Coveralls
+      - name: Send coverage to Coveralls
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          coveralls debug --service=github --repo-token=$GITHUB_TOKEN
-
-      - name: Upload coverage to Coveralls
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Используйте встроенный токен GitHub
-        run: |
-          coveralls --service=github --repo-token=$GITHUB_TOKEN
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+          run: cat ./coverage/lcov.info | npx coveralls
