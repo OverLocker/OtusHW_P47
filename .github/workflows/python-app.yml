@@ -29,6 +29,12 @@ jobs:
         run: |
           pytest --cov=app --cov-report=xml
 
+      - name: Debug Coveralls
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          coveralls debug --service=github --repo-token=$GITHUB_TOKEN
+
       - name: Upload coverage to Coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Используйте встроенный токен GitHub
