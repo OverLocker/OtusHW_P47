@@ -2,10 +2,27 @@ stages:
   - test
 
 test:
-  image: python:3.11
   stage: test
-  before_script:
+  image: python:3.11
+  script:
+    - echo "Установка зависимостей"
     - pip install --upgrade pip
     - pip install -r requirements.txt
-  script:
+    - echo "Запуск тестов"
     - pytest
+  only:
+    - master
+    - merge_requests
+
+manual_test:
+  stage: test
+  image: python:3.8
+  script:
+    - echo "Установка зависимостей"
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+    - echo "Запуск тестов"
+    - pytest
+  when: manual
+  only:
+    - merge_requests
